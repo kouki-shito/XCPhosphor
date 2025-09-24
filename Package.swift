@@ -4,7 +4,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "XCPhosphor",
+    name: "swift-xc-phosphor",
     platforms: [.macOS(.v10_15), .iOS(.v13), .tvOS(.v13)],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
@@ -17,7 +17,7 @@ let package = Package(
         // Targets can depend on other targets in this package and products from dependencies.
         .binaryTarget(
             name: "PhosphorBinary",
-            url: "https://github.com/kouki-shito/XCPhosphor/releases/download/1.0.0/XCPhosphor-1.0.0.xcframework.zip",
+            url: "https://github.com/kouki-shito/XCPhosphor/releases/download/1.0.0/PhosphorBinary-1.0.0.xcframework.zip",
             checksum: "696ff58e4d523a559c5e765e94b43f89fad6bb1ad2366f5963a7f59b343d8d26"
         )
     ]
