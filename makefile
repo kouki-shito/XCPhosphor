@@ -67,6 +67,7 @@ xc:
 	-archive archives/PhosphorBinary-tvOS.xcarchive -framework PhosphorBinary.framework \
 	-archive archives/PhosphorBinary-tvOS_Simulator.xcarchive -framework PhosphorBinary.framework \
 	-output xcframeworks/PhosphorBinary-${VERSION}.xcframework
+
 generate:
 	make update-assets
 	mint bootstrap
@@ -85,7 +86,7 @@ codesign:
 	codesign --timestamp -v --sign "$(APPLE_CERT_NAME)" xcframeworks/PhosphorBinary-${VERSION}.xcframework
 
 zip:
-	zip release/PhosphorBinary-${VERSION}.xcframework.zip xcframeworks/PhosphorBinary-${VERSION}.xcframework
+	cd xcframeworks && zip -r PhosphorBinary-${VERSION}.xcframework.zip PhosphorBinary-${VERSION}.xcframework/
 
 update-package:
 	export CHECKSUM=`swift package compute-checksum release/PhosphorBinary-${VERSION}.xcframework.zip` && export VER=${VERSION} && envsubst < ./Package.template > ./Package.swift
