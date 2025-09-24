@@ -1,0 +1,34 @@
+name: PhosphorBinary
+
+options:
+  bundleIdPrefix: com.kouki
+  groupSortPosition: top
+  generateEmptyDirectories: true
+  deploymentTarget:
+    iOS: "13.0"
+    tvOS: "13.0"
+    macOS: "10.15"
+
+settings:
+  GENERATE_INFOPLIST_FILE: YES
+
+targets:
+  PhosphorBinary:
+    type: framework
+    platform: [iOS, macOS, tvOS]
+    sources:
+      - BinarySources
+
+schemes:
+  PhosphorBinary_iOS:
+    build:
+      targets:
+        PhosphorBinary_iOS: all
+  PhosphorBinary_macOS:
+    build:
+      targets:
+        PhosphorBinary_macOS: all
+  PhosphorBinary_tvOS:
+    build:
+      targets:
+        PhosphorBinary_tvOS: all
