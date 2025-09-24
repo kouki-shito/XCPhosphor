@@ -18,7 +18,7 @@ let package = Package(
         .binaryTarget(
             name: "PhosphorBinary",
             url: "https://github.com/kouki-shito/swift-xc-phospor/releases/download/1.0.0/PhosphorBinary-1.0.0.xcframework.zip",
-            checksum: "696ff58e4d523a559c5e765e94b43f89fad6bb1ad2366f5963a7f59b343d8d26"
+            checksum: "0f4a21397395ff8276cd74c5145cdcb095006c85b680a8108136e4aef132050d"
         )
     ]
 )

@@ -89,5 +89,5 @@ zip:
 	cd xcframeworks && zip -r PhosphorBinary-${VERSION}.xcframework.zip PhosphorBinary-${VERSION}.xcframework/
 
 update-package:
-	export CHECKSUM=`swift package compute-checksum release/PhosphorBinary-${VERSION}.xcframework.zip` && export VER=${VERSION} && envsubst < ./Package.template > ./Package.swift
+	export CHECKSUM=`swift package compute-checksum xcframeworks/PhosphorBinary-${VERSION}.xcframework.zip` && export VER=${VERSION} && envsubst < ./Package.template > ./Package.swift
 
