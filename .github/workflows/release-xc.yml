@@ -10,11 +10,11 @@ jobs:
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
-          echo "$PRIVATE_KEY" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
+          echo "$PRIVATE_KEY" > ~/.ssh/cert_repo_ed25519
+          chmod 600 ~/.ssh/cert_repo_ed25519
           ssh-keyscan github.com >> ~/.ssh/known_hosts
           eval $(ssh-agent)
-          ssh-add ~/.ssh/id_rsa
+          ssh-add ~/.ssh/cert_repo_ed25519
         env:
           PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       - uses: actions/checkout@v2
@@ -39,7 +39,7 @@ jobs:
           APPLE_ID: ${{secrets.APPLE_ID}}
           CER_NAME: ${{secrets.CER_NAME}}
           CER_REPO: ${{secrets.CER_REPO}}
-          MATCH_GIT_PRIVATE_KEY_PATH: ~/.ssh/id_rsa
+          MATCH_GIT_PRIVATE_KEY_PATH: ~/.ssh/cert_repo_ed25519
           INCREMENTED_VERSION: ${{steps.next_version.outputs.new_tag}}
           FASTLANE_SKIP_ACTION_SUMMARY: true
           FASTLANE_HIDE_PLUGINS_TABLE: true
