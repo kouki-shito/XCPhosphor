@@ -3,7 +3,7 @@ default_platform(:ios)
 platform :ios do
   lane :create_xc do
     setup_certs
-    if !Dir.Exist?("fastlane/export/output/PhosphorBinary.xcframework") || ENV['IGNORE_CACHE']
+    if !Dir.exist?("fastlane/export/output/PhosphorBinary.xcframework") || ENV['IGNORE_CACHE']
       setup_proj
       xc
     end
