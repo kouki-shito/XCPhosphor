@@ -18,6 +18,8 @@ jobs:
         env:
           PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       - uses: actions/checkout@v2
+        with:
+          submodules: recursive
 
       - name: setup bundle
         run: bundle install
@@ -39,7 +41,7 @@ jobs:
       - name: setup assets
         run: |
           git submodule update --remote --init --recursive --force
-          xcrun --sdk macosx swiftc -swift-version 5 -parse-as-library ./Scripts/Build.swift -o ./Scripts/Build
+          xcrun --sdk macosx swiftc -parse-as-library ./Scripts/Build.swift -o ./Scripts/Build
           ./Scripts/Build
 
       - name: run fastlane disable logs and create xcframework.zip
