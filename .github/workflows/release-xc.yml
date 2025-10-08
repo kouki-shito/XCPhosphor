@@ -25,6 +25,7 @@ jobs:
         env:
           MATCH_KEYCHAIN_NAME: ${{secrets.MATCH_KEYCHAIN_NAME}}
           MATCH_KEYCHAIN_PASSWORD: ${{secrets.MATCH_KEYCHAIN_PASSWORD}}
+          MATCH_PASSWORD: ${{secrets.MATCH_PASSWORD}}
           APPLE_ID: ${{secrets.APPLE_ID}}
           CER_NAME: ${{secrets.CER_NAME}}
           CER_REPO: ${{secrets.CER_REPO}}
