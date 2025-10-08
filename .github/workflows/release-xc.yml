@@ -31,7 +31,7 @@ jobs:
           dry_run: true
 
       - name: run fastlane disable logs and create xcframework.zip
-        run: bundle exec fastlane create_xc --capture_output
+        run: bundle exec fastlane create_xc
         env:
           MATCH_KEYCHAIN_NAME: ${{secrets.MATCH_KEYCHAIN_NAME}}
           MATCH_KEYCHAIN_PASSWORD: ${{secrets.MATCH_KEYCHAIN_PASSWORD}}
