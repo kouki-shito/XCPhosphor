@@ -1,0 +1,109 @@
+default_platform(:ios)
+
+platform :ios do
+  lane :create_xc do
+    setup_certs
+    setup_proj
+    xc
+    release_process
+    cleanup
+  end
+
+  lane :open_proj do
+    if !is_ci
+      setup_proj
+      sh("open ../PhosphorBinary.xcodeproj")
+    end
+  end
+
+  private_lane :setup_certs do
+    create_keychain(
+      name: ENV["MATCH_KEYCHAIN_NAME"],
+      password: ENV["MATCH_KEYCHAIN_PASSWORD"],
+      timeout: 1800,
+    )
+    match(
+      type: "appstore",
+      readonly: true,
+      app_identifier: ["com.kouki.PhosphorBinary"],
+      git_url: ENV["CER_REPO"],
+      git_private_key: ENV["MATCH_GIT_PRIVATE_KEY_PATH"],
+      keychain_name: ENV["MATCH_KEYCHAIN_NAME"],
+      keychain_password: ENV["MATCH_KEYCHAIN_PASSWORD"]
+    )
+  end
+
+  private_lane :setup_proj do
+    sh("git submodule update --remote --init --recursive --force")
+    sh("cd .. && xcrun --sdk macosx swiftc -parse-as-library ./Scripts/Build.swift -o ./Scripts/Build")
+    sh("cd .. && ./Scripts/Build")
+    sh("cd .. && mint bootstrap")
+    sh("cd .. && mint run xcodegen xcodegen generate")
+  end
+  
+  private_lane :xc do
+    xcodebuild(
+      archive: true,
+      project: "PhosphorBinary.xcodeproj",
+      scheme: "PhosphorBinary_iOS",
+      archive_path: "fastlane/export/archives/PhosphorBinary-iOS",
+      destination: "generic/platform=iOS",
+      xcargs: "ASSETCATALOG_COMPILER_GENERATE_ASSET_SYMBOLS=NO SKIP_INSTALL=NO BUILD_LIBRARY_FOR_DISTRIBUTION=YES"
+    )
+    xcodebuild(
+      archive: true,
+      project: "PhosphorBinary.xcodeproj",
+      scheme: "PhosphorBinary_iOS",
+      archive_path: "fastlane/export/archives/PhosphorBinary-iOS_Simulator",
+      destination: "generic/platform=iOS Simulator",
+      xcargs: "ASSETCATALOG_COMPILER_GENERATE_ASSET_SYMBOLS=NO SKIP_INSTALL=NO BUILD_LIBRARY_FOR_DISTRIBUTION=YES"
+    )
+    xcodebuild(
+      archive: true,
+      project: "PhosphorBinary.xcodeproj",
+      scheme: "PhosphorBinary_macOS",
+      archive_path: "fastlane/export/archives/PhosphorBinary-macOS",
+      destination: "generic/platform=macOS",
+      xcargs: "ASSETCATALOG_COMPILER_GENERATE_ASSET_SYMBOLS=NO SKIP_INSTALL=NO BUILD_LIBRARY_FOR_DISTRIBUTION=YES"
+    )
+    xcodebuild(
+      archive: true,
+      project: "PhosphorBinary.xcodeproj",
+      scheme: "PhosphorBinary_tvOS",
+      archive_path: "fastlane/export/archives/PhosphorBinary-tvOS",
+      destination: "generic/platform=tvOS",
+      xcargs: "ASSETCATALOG_COMPILER_GENERATE_ASSET_SYMBOLS=NO SKIP_INSTALL=NO BUILD_LIBRARY_FOR_DISTRIBUTION=YES"
+    )
+    xcodebuild(
+      archive: true,
+      project: "PhosphorBinary.xcodeproj",
+      scheme: "PhosphorBinary_tvOS",
+      archive_path: "fastlane/export/archives/PhosphorBinary-tvOS_Simulator",
+      destination: "generic/platform=tvOS Simulator",
+      xcargs: "ASSETCATALOG_COMPILER_GENERATE_ASSET_SYMBOLS=NO SKIP_INSTALL=NO BUILD_LIBRARY_FOR_DISTRIBUTION=YES"
+    )
+    create_xcframework(
+      frameworks: [
+        "fastlane/export/archives/PhosphorBinary-iOS.xcarchive/Products/Library/Frameworks/PhosphorBinary.framework",
+        "fastlane/export/archives/PhosphorBinary-iOS_Simulator.xcarchive/Products/Library/Frameworks/PhosphorBinary.framework",
+        "fastlane/export/archives/PhosphorBinary-macOS.xcarchive/Products/Library/Frameworks/PhosphorBinary.framework",
+        "fastlane/export/archives/PhosphorBinary-tvOS.xcarchive/Products/Library/Frameworks/PhosphorBinary.framework",
+        "fastlane/export/archives/PhosphorBinary-tvOS_Simulator.xcarchive/Products/Library/Frameworks/PhosphorBinary.framework"
+      ],
+      output: "fastlane/export/output/PhosphorBinary.xcframework"
+    )
+  end
+
+  private_lane :release_process do
+    sh(command: "codesign --timestamp -f -s '#{ENV['CER_NAME']}' export/output/PhosphorBinary.xcframework", log: false)
+    zip(
+      path: "fastlane/export/output/PhosphorBinary.xcframework",
+      output_path: "fastlane/export/release/PhosphorBinary.xcframework.zip"
+    )
+    sh("export CHECKSUM=`swift package compute-checksum export/release/PhosphorBinary.xcframework.zip` && export VER=#{ENV['INCREMENTED_VERSION']} && envsubst < ../Package.template > ../Package.swift")
+  end
+
+  private_lane :cleanup do
+    delete_keychain(name: ENV["MATCH_KEYCHAIN_NAME"])
+  end
+end
