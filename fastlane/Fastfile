@@ -27,7 +27,7 @@ platform :ios do
       readonly: true,
       app_identifier: ["com.kouki.PhosphorBinary"],
       git_url: ENV["CER_REPO"],
-      git_private_key: ENV["MATCH_GIT_PRIVATE_KEY_PATH"],
+      git_basic_authorization: ENV['MATCH_GIT_BASIC_AUTHORIZATION'],
       keychain_name: ENV["MATCH_KEYCHAIN_NAME"],
       keychain_password: ENV["MATCH_KEYCHAIN_PASSWORD"]
     )

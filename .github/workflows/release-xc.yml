@@ -39,7 +39,7 @@ jobs:
           APPLE_ID: ${{secrets.APPLE_ID}}
           CER_NAME: ${{secrets.CER_NAME}}
           CER_REPO: ${{secrets.CER_REPO}}
-          MATCH_GIT_PRIVATE_KEY_PATH: ~/.ssh/cert_repo_ed25519
+          MATCH_GIT_BASIC_AUTHORIZATION: ${{secrets.MATCH_GIT_BASIC_AUTHORIZATION}}
           INCREMENTED_VERSION: ${{steps.next_version.outputs.new_tag}}
           FASTLANE_SKIP_ACTION_SUMMARY: true
           FASTLANE_HIDE_PLUGINS_TABLE: true
