@@ -34,9 +34,6 @@ platform :ios do
   end
 
   private_lane :setup_proj do
-    sh("git submodule update --remote --init --recursive --force")
-    sh("cd .. && xcrun --sdk macosx swiftc -swift-version 5 -parse-as-library ./Scripts/Build.swift -o ./Scripts/Build")
-    sh("cd .. && ./Scripts/Build")
     sh("cd .. && mint bootstrap")
     sh("cd .. && mint run xcodegen xcodegen generate")
   end

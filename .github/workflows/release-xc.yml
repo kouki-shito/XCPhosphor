@@ -27,6 +27,7 @@ jobs:
 
       - name: Set Xcode version
         run: sudo xcode-select -s /Applications/Xcode_16.0.app
+
       - name: Calculate next version
         id: next_version
         uses: mathieudutour/github-tag-action@v6.2
@@ -34,6 +35,12 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           tag_prefix: ""
           dry_run: true
+
+      - name: setup assets
+        run: |
+          git submodule update --remote --init --recursive --force
+          xcrun --sdk macosx swiftc -swift-version 5 -parse-as-library ./Scripts/Build.swift -o ./Scripts/Build
+          ./Scripts/Build
 
       - name: run fastlane disable logs and create xcframework.zip
         run: bundle exec fastlane create_xc
