@@ -1,9 +1,18 @@
 name: release xcframework
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      ignore_cache:
+        description: "ignore_cache"
+        required: false
+        type: boolean
+
 jobs:
   release-xc:
     name: release-xcframework
     runs-on: macos-latest
+    permissions:
+      contents: write
     environment:
       name: production
     steps:
@@ -41,6 +50,13 @@ jobs:
           xcrun --sdk macosx swiftc -parse-as-library ./Scripts/Build.swift -o ./Scripts/Build
           ./Scripts/Build
 
+      - name: load xcframework cache
+        if: ${{inputs.ignore_cache}} == false
+        uses: actions/cache@v3
+        with:
+          path: ./fastlane/export/output/PhosphorBinary.xcframework
+          key: ${{ runner.os }}-xcframework-${{steps.next_version.outputs.new_tag}}
+
       - name: run fastlane disable logs and create xcframework.zip
         run: bundle exec fastlane create_xc
         env:
@@ -50,6 +66,7 @@ jobs:
           APPLE_ID: ${{secrets.APPLE_ID}}
           CER_NAME: ${{secrets.CER_NAME}}
           CER_REPO: ${{secrets.CER_REPO}}
+          IGNORE_CACHE: ${{inputs.ignore_cache}}
           MATCH_GIT_BASIC_AUTHORIZATION: ${{secrets.MATCH_GIT_BASIC_AUTHORIZATION}}
           INCREMENTED_VERSION: ${{steps.next_version.outputs.new_tag}}
           FASTLANE_SKIP_ACTION_SUMMARY: true
