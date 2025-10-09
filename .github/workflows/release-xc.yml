@@ -48,7 +48,7 @@ jobs:
         id: next_version
         uses: mathieudutour/github-tag-action@v6.2
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ steps.app-token.outputs.token }}
           tag_prefix: ""
           dry_run: true
 
@@ -84,7 +84,7 @@ jobs:
         id: bump_version
         uses: mathieudutour/github-tag-action@v6.2
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ steps.app-token.outputs.token }}
           tag_prefix: ""
 
       - name: Release
@@ -92,6 +92,7 @@ jobs:
         with:
           tag_name: ${{ steps.next_version.outputs.new_tag }}
           body: ${{ steps.next_version.outputs.changelog }}
+          token: ${{ steps.app-token.outputs.token }}
           files: fastlane/export/release/PhosphorBinary.xcframework.zip
 
       - uses: stefanzweifel/git-auto-commit-action@v6
