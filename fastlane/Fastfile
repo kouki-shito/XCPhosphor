@@ -99,6 +99,7 @@ platform :ios do
     zip(
       path: "fastlane/export/output/PhosphorBinary.xcframework",
       output_path: "fastlane/export/release/PhosphorBinary.xcframework.zip"
+      symlinks: true
     )
     sh("export CHECKSUM=`swift package compute-checksum export/release/PhosphorBinary.xcframework.zip` && export VER=#{ENV['INCREMENTED_VERSION']} && envsubst < ../Package.template > ../Package.swift")
   end
