@@ -10,17 +10,13 @@ let package = Package(
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
             name: "XCPhosphor",
-            targets: ["Phosphor"]),
+            targets: ["XCPhosphor"]),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
-        .target(
-            name: "Phosphor",
-            dependencies: ["PhosphorBinary"]
-        ),
         .binaryTarget(
-            name: "PhosphorBinary",
+            name: "XCPhosphor",
             url: "https://github.com/kouki-shito/swift-xc-phospor/releases/download/1.0.0/PhosphorBinary.xcframework.zip",
             checksum: "94cef3cddc32de382a96e85a2b226a219fdabfc3eff9c9ba54e94f41591e4cdc"
         )
