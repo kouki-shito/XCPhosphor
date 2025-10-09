@@ -40,7 +40,7 @@ jobs:
         id: next_version
         uses: mathieudutour/github-tag-action@v6.2
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GIT_DEPLOY_KEY }}
           tag_prefix: ""
           dry_run: true
 
@@ -76,7 +76,7 @@ jobs:
         id: bump_version
         uses: mathieudutour/github-tag-action@v6.2
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GIT_DEPLOY_KEY }}
           tag_prefix: ""
 
       - name: Release
