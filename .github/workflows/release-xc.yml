@@ -98,6 +98,3 @@ jobs:
       - uses: stefanzweifel/git-auto-commit-action@v6
         with:
           commit_message: Bump version to ${{ steps.next_version.outputs.new_tag }}
-
-      - name: cleanup
-        run: rm ~/.ssh
