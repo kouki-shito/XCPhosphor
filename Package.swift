@@ -17,8 +17,8 @@ let package = Package(
         // Targets can depend on other targets in this package and products from dependencies.
         .binaryTarget(
             name: "XCPhosphor",
-            url: "https://github.com/kouki-shito/swift-xc-phosphor/releases/download/1.0.0/PhosphorBinary.xcframework.zip",
-            checksum: "94cef3cddc32de382a96e85a2b226a219fdabfc3eff9c9ba54e94f41591e4cdc"
+            url: "https://github.com/kouki-shito/swift-xc-phosphor/releases/download/1.0.1/PhosphorBinary.xcframework.zip",
+            checksum: "52810c62557e6036be88b4cbcfbd3e8271367ef992abf95136c8e64a8776cd5b"
         )
     ]
 )
