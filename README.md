@@ -1,6 +1,8 @@
 # swift-xc-phosphor
 This repository generates an XCFramework from PhosphorSwift and provides it as a BinaryTarget.
 
+By using this library, you can reduce asset loading and significantly shorten the extensive build time of Phosphor Swift.
+
 Original repository: https://github.com/phosphor-icons/swift
 
 # Installation
